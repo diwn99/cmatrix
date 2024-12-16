@@ -169,6 +169,16 @@ void usage(void) {
     printf(" -k: Characters change while scrolling. (Works without -o opt.)\n");
     printf(" -t [tty]: Set tty to use\n");
 }
+/*define new animation pattern */
+void draw_new_pattern() {
+    for (int i = 0; i < term_width; i++) {
+        for (int j = 0; j < term_height; j++) {
+            if (rand() % 100 < 10) {  
+                printf("\033[%d;%dH*", j+1, i+1);  
+            }
+        }
+    }
+}
 
 void version(void) {
     printf(" CMatrix version %s (compiled %s, %s)\n",
