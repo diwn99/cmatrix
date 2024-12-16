@@ -179,6 +179,39 @@ void draw_new_pattern() {
         }
     }
 }
+if (strcmp(argv[1], "--pattern") == 0) {
+    if (strcmp(argv[2], "new_pattern") == 0) {
+        draw_new_pattern();
+    }
+}
+/*사용자 지정 텍스트 문자*/
+void draw_text_mode(char *message) {
+    for (int i = 0; i < term_width; i++) {
+        for (int j = 0; j < term_height; j++) {
+            if (rand() % 100 < 5) {  // 5% 확률로 특정 문자 출력
+                printf("\033[%d;%dH%s", j+1, i+1, message);  // \033[줄;열H: 커서 이동
+            }
+        }
+    }
+}
+if (strcmp(argv[1], "--text-mode") == 0) {
+    draw_text_mode(argv[2]);
+}
+/*터미널 확장 지원*/
+struct winsize w;
+ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+term_width = w.ws_col;
+term_height = w.ws_row;
+/*화면 크기에 맞게 지정 */
+void adjust_for_terminal_size() {
+    term_width = w.ws_col;
+    term_height = w.ws_row;
+    // 필요에 따라 크기 조정
+}
+if (strcmp(argv[1], "--fullscreen") == 0) {
+    w.ws_col = 80;  // 가로 크기
+    w.ws_row = 24;  // 세로 크기
+}
 
 void version(void) {
     printf(" CMatrix version %s (compiled %s, %s)\n",
